@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 export async function GET(req, res) {
     try {
-      const response = await fetch(process.env.SOURCE)
+      const response = await fetch(process.env.NEXT_PUBLIC_SOURCE)
+      console.log(process.env.NEXT_PUBLIC_SOURCE, response)
       const imageBlob = await response.blob();
   
       // Set appropriate content type header for the response
