@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-export default async function handler(req, res) {
+export async function GET(req, res) {
     try {
       const response = await fetch(process.env.SOURCE)
       const imageBlob = await response.blob();
