@@ -1,38 +1,29 @@
-'use client'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-import React, { useEffect, useState } from 'react';
+function YourComponent() {
+  const [imageBlob, setImageBlob] = useState(null);
 
-  async function fetchImage() {
-    try {
-      const response = await fetch(process.env.SOURCE!);
-      const blob = await response.blob();  // Get the image data as a Blob
-      return blob;
-    } catch (error) {
-      console.error('Error fetching image:', error);
-      return null;
-    }
-  }
-  function ImageComponent() {
-    const [imageData, setImageData] = useState<Blob | null>(null);
-  
-    useEffect(() => {
-      async function loadImage() {
-        const blob = await fetchImage();
-        setImageData(blob);
+  useEffect(() => {
+    async function fetchImage() {
+      try {
+        const response = await axios.get('/api/images', {
+          responseType: 'blob', // Tell Axios to treat the response as a Blob
+        });
+        setImageBlob(response.data);
+      } catch (error) {
+        console.error('Error fetching image:', error);
       }
-  
-      loadImage();
-    }, []);
-  
-    return (
-      <div>
-        {imageData && (
-          <img
-            src={URL.createObjectURL(imageData)}  // Create a temporary URL for the Blob
-            alt="Smile"
-          />
-        )}
-      </div>
-    );
-  }
-  export default ImageComponent
+    }
+
+    fetchImage();
+  }, []);
+
+  return (
+    <div>
+      {imageBlob && <img src={URL.createObjectURL(imageBlob)} alt="Smile" />}
+    </div>
+  );
+}
+
+export default YourComponent;
