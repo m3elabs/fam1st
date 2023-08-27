@@ -9,7 +9,7 @@ function YourComponent() {
   useEffect(() => {
     async function fetchImage() {
       try {
-        const response = await axios.get('/api/images', {
+        const response = await axios.get(`http://${process.env.NEXT_PUBLIC_SOURCE}`, {
           responseType: 'blob', // Tell Axios to treat the response as a Blob
         });
         setImageBlob(response.data);
